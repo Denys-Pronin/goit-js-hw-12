@@ -1,6 +1,5 @@
 export function renderImages(images) {
   const gallery = document.querySelector('.gallery');
-  gallery.textContent = '';
   const markup = images
     .map(item => {
       console.log(item);

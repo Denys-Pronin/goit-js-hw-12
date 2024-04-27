@@ -121,3 +121,18 @@
   margin: 20px auto 0;
   display: none;
 }
+
+.load-more {
+  border-radius: 8px;
+  background: #4e75ff;
+  color: #fff;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+  letter-spacing: 0.64px;
+  padding: 8px 16px;
+  margin: 32px auto;
+  border: none;
+}
