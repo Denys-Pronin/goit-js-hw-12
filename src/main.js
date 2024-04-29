@@ -49,32 +49,29 @@ function loadMoreImages() {
   currentPage++;
   const searchText = document.querySelector('.search-field').value;
   const url = `https://pixabay.com/api/?key=${API}&q=${searchText}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${perPage}&page=${currentPage}`;
-  if (totalImages === totalHits) {
-    iziToast.show({
-      position: 'topRight',
-      backgroundColor: '#EF4040',
-      message: "We're sorry, but you've reached the end of search results.",
-      messageColor: '#fff',
-    });
-    loadMoreBtn.style.display = 'none';
-    loader.style.display = 'none';
-  } else {
-    fetchImages(url)
-      .then(data => {
-        renderImages(data.hits);
-        loader.style.display = 'none';
-        toggleLoadMoreButton(data.hits.length > 0);
-        totalImages += data.hits.length;
-        window.scrollBy({
-          top: galleryItemHeight * 5 + 150,
-          behavior: 'smooth',
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching images:', error);
-        loader.style.display = 'none';
+
+  fetchImages(url)
+    .then(data => {
+      renderImages(data.hits);
+      loader.style.display = 'none';
+      toggleLoadMoreButton(data.hits.length > 0);
+      totalImages += data.hits.length;
+      window.scrollBy({
+        top: galleryItemHeight * 5 + 150,
+        behavior: 'smooth',
       });
-  }
+    })
+    .catch(error => {
+      console.error('Error fetching images:', error);
+      loader.style.display = 'none';
+      iziToast.show({
+        position: 'topRight',
+        backgroundColor: '#EF4040',
+        message: "We're sorry, but you've reached the end of search results.",
+        messageColor: '#fff',
+      });
+      toggleLoadMoreButton(false);
+    });
 }
 
 function toggleLoadMoreButton(show) {
@@ -82,4 +79,3 @@ function toggleLoadMoreButton(show) {
 }
 
 let lightbox = new SimpleLightbox('.gallery-img a', {});
-lightbox.on('show.simplelightbox', function () {});
