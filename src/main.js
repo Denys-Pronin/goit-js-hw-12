@@ -33,8 +33,8 @@ function formSubmit(event) {
       renderImages(data.hits);
       loader.style.display = 'none';
       lightbox.refresh();
-      toggleLoadMoreButton(data.hits.length > 0);
       totalImages += data.hits.length;
+      toggleLoadMoreButton(totalImages < data.totalHits);
       totalHits = data.totalHits;
       galleryItemHeight = gallery
         .querySelector('.gallery-item')
@@ -54,8 +54,9 @@ function loadMoreImages() {
     .then(data => {
       renderImages(data.hits);
       loader.style.display = 'none';
-      toggleLoadMoreButton(data.hits.length > 0);
+      lightbox.refresh();
       totalImages += data.hits.length;
+      toggleLoadMoreButton(totalImages < data.totalHits);
       window.scrollBy({
         top: galleryItemHeight * 5 + 150,
         behavior: 'smooth',
