@@ -23,6 +23,7 @@ function formSubmit(event) {
   const gallery = document.querySelector('.gallery');
   gallery.textContent = '';
   currentPage = 1;
+  totalImages = 0;
 
   if (searchText.trim() === '') {
     search.reset();
@@ -57,6 +58,15 @@ function loadMoreImages() {
       lightbox.refresh();
       totalImages += data.hits.length;
       toggleLoadMoreButton(totalImages < data.totalHits);
+      if (totalImages >= data.totalHits) {
+        loadMoreBtn.style.display = 'none';
+        iziToast.show({
+          position: 'topRight',
+          backgroundColor: '#EF4040',
+          message: "We're sorry, but you've reached the end of search results.",
+          messageColor: '#fff',
+        });
+      }
       window.scrollBy({
         top: galleryItemHeight * 5 + 150,
         behavior: 'smooth',
@@ -65,12 +75,6 @@ function loadMoreImages() {
     .catch(error => {
       console.error('Error fetching images:', error);
       loader.style.display = 'none';
-      iziToast.show({
-        position: 'topRight',
-        backgroundColor: '#EF4040',
-        message: "We're sorry, but you've reached the end of search results.",
-        messageColor: '#fff',
-      });
       toggleLoadMoreButton(false);
     });
 }
